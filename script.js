@@ -144,7 +144,7 @@ function scheduleKick(time, vol) {
   const gain = audioCtx.createGain();
   osc.frequency.setValueAtTime(150, time);
   osc.frequency.exponentialRampToValueAtTime(50, time + 0.12);
-  gain.gain.setValueAtTime(vol, time);
+  gain.gain.setValueAtTime(vol*1.5, time);
   gain.gain.exponentialRampToValueAtTime(0.001, time + 0.4);
   osc.connect(gain).connect(currentMasterGain);
   osc.start(time);
@@ -162,7 +162,7 @@ function scheduleSnare(time, vol) {
   gain.gain.setValueAtTime(vol * 0.9, time);
   gain.gain.exponentialRampToValueAtTime(0.001, time + 0.15);
   src.connect(filter).connect(gain).connect(currentMasterGain);
-  src.start(time,2);
+  src.start(time);
   src.stop(time + 0.2);
 }
 
@@ -189,7 +189,7 @@ function scheduleHihat(time, vol) {
   const filter = audioCtx.createBiquadFilter();
   filter.type = 'highpass';
   filter.frequency.value = 8000;
-  gain.gain.setValueAtTime(vol * 0.4, time);
+  gain.gain.setValueAtTime(vol * 0.9, time);
   gain.gain.exponentialRampToValueAtTime(0.001, time + 0.03);
   src.connect(filter).connect(gain).connect(currentMasterGain);
   src.start(time);
@@ -277,9 +277,9 @@ function scheduleBass(note, time, vol) {
   if (!freq || !currentMasterGain) return;
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
-  osc.type = 'triangle';
+  osc.type = 'sawtooth';
   osc.frequency.setValueAtTime(freq, time);
-  gain.gain.setValueAtTime(vol, time);
+  gain.gain.setValueAtTime(vol*1.5, time);
   gain.gain.exponentialRampToValueAtTime(0.001, time + 1.5);
   osc.connect(gain).connect(currentMasterGain);
   osc.start(time);
@@ -316,12 +316,16 @@ function renderTimeline() {
     head.className = 'track-head';
     head.innerHTML = `
       <div class="track-name" style="color:var(--${track.color})">${track.name}</div>
-      <div class="track-vol">
-        <span>Vol</span>
-        <input type="range" min="0" max="1" step="0.1" value="${track.volume}"
-          onchange="event.stopPropagation();setTrackVolume('${track.id}', this.value)"
-          onclick="event.stopPropagation()">
-      </div>
+     
+${track.id !== 'lyrics' ? `
+<div class="track-vol">
+  <span>Vol</span>
+  <input type="range" min="0" max="1" step="0.1" value="${track.volume}"
+    onchange="event.stopPropagation();setTrackVolume('${track.id}', this.value)"
+    onclick="event.stopPropagation()">
+</div>
+` : ''}
+
       <button class="track-btn ${track.muted?'muted':''}" 
         onclick="event.stopPropagation();toggleMute('${track.id}')">
         ${track.muted ? '🔇' : '👁️'}
