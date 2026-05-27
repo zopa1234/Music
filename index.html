@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Music Siamna</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="top-bar">
+    <input type="text" id="song-name" value="Hla Hming" placeholder="Hla Hming">
+    <button id="play-btn">▶ Play</button>
+    <button id="stop-btn">⏹ Stop</button>
+    <div class="ctrl-group">
+      <label>Master</label>
+      <input type="range" id="master-vol" min="0" max="1" step="0.1" value="0.8">
+    </div>
+    <div class="ctrl-group">
+      <label>Tempo</label>
+      <input type="number" id="tempo" value="100" min="40" max="240">
+    </div>
+    <div class="ctrl-group">
+      <label>Vuak Zat</label>
+      <input type="number" id="beats-per-cycle" value="4" min="2" max="8">
+    </div>
+  </div>
+
+  <div id="timeline-wrap">
+    <div id="timeline"></div>
+  </div>
+
+  <div id="palette-bar">
+    <div id="palette-label">Thlang rawh le</div>
+    <div id="palette-items"></div>
+    <div id="lyric-input-row" style="display:none">
+      <input type="text" id="lyric-text" placeholder="Hla thu...">
+      <button onclick="addLyricFromInput()">Add</button>
+    </div>
+    <input type="file" id="file-input" accept="audio/*" multiple onchange="handleAudioUpload(event)">
+  </div>
+
+  <div id="bottom-bar">
+    <button onclick="saveSong()">💾 Save</button>
+    <button class="btn-sec" onclick="loadSong()">📂 Load</button>
+    <button class="btn-sec" onclick="newSong()">🗑️ New</button>
+  </div>
+<script src="script.js"></script>
+</body>
+</html>

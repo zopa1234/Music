@@ -1,0 +1,168 @@
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --guitar: #e3b341;
+      --bass: #2ea043;
+      --drums: #f85149;
+      --lyrics: #a371f7;
+      --slot: #21262d;
+      --slot-active: #30363d;
+    }
+    
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body {
+      margin: 0; font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg); color: var(--text); overflow: hidden;
+      height: 100vh; display: flex; flex-direction: column;
+    }
+    
+    #top-bar {
+      background: var(--panel); border-bottom: 1px solid var(--border);
+      padding: 10px 12px; display: flex; gap: 10px; align-items: center;
+      flex-wrap: wrap; z-index: 20; flex-shrink: 0;
+    }
+    #top-bar input, #top-bar select {
+      background: var(--bg); border: 1px solid var(--border); color: var(--text);
+      border-radius: 6px; padding: 6px 8px; font-size: 14px;
+    }
+    #song-name { flex: 1; min-width: 100px; }
+    .ctrl-group { display: flex; align-items: center; gap: 4px; font-size: 13px; }
+    .ctrl-group input[type="number"] { width: 55px; text-align: center; }
+    .ctrl-group input[type="range"] { width: 70px; }
+    button {
+      background: var(--accent); color: #fff; border: none; border-radius: 6px;
+      padding: 8px 14px; font-size: 14px; font-weight: 600; cursor: pointer;
+    }
+    button:active { opacity: 0.8; transform: scale(0.96); }
+    #stop-btn { background: var(--drums); }
+    
+    #timeline-wrap {
+      flex: 1; overflow-y: auto; overflow-x: auto; position: relative;
+      -webkit-overflow-scrolling: touch;
+    }
+    #timeline {
+      display: flex; flex-direction: column; min-width: max-content;
+      position: relative;
+    }
+    
+    .track-lane {
+      display: flex; border-bottom: 1px solid var(--border); min-height: 70px;
+      position: relative;
+    }
+    .track-lane.active { background: rgba(88, 166, 255, 0.05); }
+    .track-lane.active .track-head { border-left: 4px solid var(--accent); }
+    
+    .track-head {
+      width: 90px; background: var(--panel); position: sticky; left: 0;
+      z-index: 10; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 3px; padding: 4px; border-left: 4px solid transparent;
+      border-right: 1px solid var(--border); flex-shrink: 0;
+    }
+    .track-name { font-size: 12px; font-weight: 600; }
+    .track-vol {
+      display: flex; align-items: center; gap: 2px; font-size: 10px;
+    }
+    .track-vol input[type="range"] { width: 50px; height: 4px; }
+    .track-btn {
+      background: transparent; border: 1px solid var(--border); color: var(--text-muted);
+      border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer;
+    }
+    .track-btn.muted { color: var(--drums); border-color: var(--drums); }
+    
+    .track-body {
+      display: flex; position: relative;
+    }
+    
+    .measure-group {
+      border-right: 2px solid var(--border);
+      display: flex;
+      flex-shrink: 0;
+    }
+    .measure-label {
+      position: absolute; top: 2px; left: 4px; font-size: 9px; color: var(--text-muted);
+      pointer-events: none; z-index: 2;
+    }
+    
+    .beat-slot {
+      height: 70px;
+      border-right: 1px solid rgba(48,54,61,0.5);
+      background: var(--slot);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 10px; font-weight: 700;
+      cursor: pointer; position: relative;
+      flex-shrink: 0;
+    }
+    .beat-slot:active { background: var(--slot-active); }
+    .beat-slot.has-sound { 
+      background: var(--drums); color: #fff;
+      box-shadow: inset 0 0 8px rgba(0,0,0,0.3);
+    }
+    .beat-slot.guitar-sound { background: var(--guitar); color: #000; }
+    .beat-slot.bass-sound { background: var(--bass); color: #fff; }
+    .beat-slot.lyric-sound { 
+      background: rgba(163, 113, 247, 0.3); border: 1px solid var(--lyrics);
+      color: var(--lyrics); font-size: 9px;
+    }
+    
+.beat-num {
+  position: absolute;
+  bottom: 2px;
+  right: 4px;
+  font-size: 10px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.beat-num.main-beat {
+  font-size: 16px;
+  font-weight: 900;
+  color: #ffffff;
+  opacity: 1;
+  text-shadow: 0 0 4px rgba(0,0,0,0.7);
+}
+
+
+
+    
+    #playhead {
+      position: absolute; top: 0; bottom: 0; width: 2px;
+      background: #ff4444; z-index: 50; pointer-events: none;
+      display: none; box-shadow: 0 0 6px rgba(255,68,68,0.8);
+    }
+    
+    #palette-bar {
+      background: var(--panel); border-top: 1px solid var(--border);
+      padding: 10px 12px; z-index: 20; flex-shrink: 0;
+    }
+    #palette-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+    #palette-items {
+      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px;
+    }
+    .palette-item {
+      background: var(--bg); border: 2px solid var(--border); color: var(--text);
+      border-radius: 8px; padding: 10px 16px; font-size: 15px; font-weight: 700;
+      cursor: pointer; white-space: nowrap; flex-shrink: 0; text-align: center; min-width: 60px;
+    }
+    .palette-item.selected { border-color: var(--accent); background: rgba(88,166,255,0.1); }
+    .palette-item:active { transform: scale(0.95); }
+    
+    #lyric-input-row {
+      display: flex; gap: 8px; margin-top: 8px;
+    }
+    #lyric-input-row input { flex: 1; background: var(--bg); border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 8px; }
+    
+    #bottom-bar {
+      display: flex; gap: 10px; padding: 10px 12px;
+      background: var(--panel); border-top: 1px solid var(--border); flex-shrink: 0;
+    }
+    #bottom-bar button { flex: 1; font-size: 13px; padding: 10px; }
+    .btn-sec { background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+    .btn-danger { background: var(--drums); }
+    
+    #file-input { display: none; }
+    ::-webkit-scrollbar { width: 0; height: 0; }
